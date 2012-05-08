@@ -13,7 +13,7 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
-		mavenRepo "http://jrimum.org/maven/content/groups/public/"
+	//mavenRepo "http://jrimum.org/maven/content/groups/public/"
 		
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
@@ -28,6 +28,8 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.13'
-		runtime 'org.jrimum:jrimum-bopepo:0.2.3-SNAPSHOT'
+	// runtime 'org.jrimum:jrimum-bopepo:0.2.3-SNAPSHOT'
+	runtime 'com.lowagie:itext:2.0.8'
+	
     }
 }

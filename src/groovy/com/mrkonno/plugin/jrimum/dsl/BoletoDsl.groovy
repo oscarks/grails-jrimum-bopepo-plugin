@@ -20,7 +20,7 @@ import org.jrimum.domkee.financeiro.banco.febraban.Sacado;
 import org.jrimum.domkee.financeiro.banco.febraban.SacadorAvalista;
 import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
 import org.jrimum.domkee.financeiro.banco.febraban.Titulo;
-import org.jrimum.domkee.financeiro.banco.febraban.Titulo.Aceite;
+import org.jrimum.domkee.financeiro.banco.febraban.Titulo.EnumAceite;
 import org.jrimum.domkee.financeiro.banco.hsbc.TipoIdentificadorCNR;
 import org.jrimum.domkee.financeiro.banco.febraban.TipoDeCobranca;
 import org.jrimum.domkee.financeiro.banco.ParametrosBancariosMap;
@@ -38,7 +38,7 @@ class BoletoDsl {
     Date dataDocumento=new Date()
     Date dataVencimento
     TipoDeTitulo tipoTitulo
-    Aceite aceite=Aceite.A
+    EnumAceite aceite=EnumAceite.A
     BigDecimal desconto=BigDecimal.ZERO
     BigDecimal deducao=BigDecimal.ZERO
     BigDecimal mora=BigDecimal.ZERO
@@ -107,12 +107,12 @@ class BoletoDsl {
     }
     def numeroDocumento(String v) { numeroDocumento=v}
     def nossoNumero(String v) { nossoNumero=v}
-    def digitoNossoNumero(String v) {nossoNumero=v}
+    def digitoNossoNumero(String v) {digitoNossoNumero=v}
     def valor(v) { valor=BigDecimal.valueOf(v) }
     def dataDocumento(Date data) {dataDocumento=data}
     def dataVencimento(Date data) {dataVencimento=data}
     def tipoTitulo(TipoDeTitulo t) {tipoTitulo=t}
-    def aceite(Aceite a) {aceite=a}
+    def aceite(EnumAceite a) {aceite=a}
     def desconto(v) {desconto=BigDecimal.valueOf(v)}
     def deducao(v) {deducao=BigDecimal.valueOf(v)}
     def mora(v) {mora=BigDecimal.valueOf(v)}
