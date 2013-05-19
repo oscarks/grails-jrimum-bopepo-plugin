@@ -49,6 +49,9 @@ class BoletoDsl {
     String localPagamento
     String instrucaoAoSacado
     String instrucoes
+
+    def textosRs = [:]
+    def textosFc = [:]
     
     def localPagamento(String s) {localPagamento=s}
     def instrucaoAoSacado(String s) {instrucaoAoSacado=s}
@@ -72,6 +75,12 @@ class BoletoDsl {
                     boleto."instrucao${i+1}"=s
                 }
             }
+        }
+        textosFc.each { item, valor->
+            boleto.addTextosExtras("txtFc${item}",valor)
+        }
+        textosRs.each { item,valor->
+            boleto.addTextosExtras("txtRs${item}",valor)
         }
         boleto
     }
@@ -134,6 +143,13 @@ class BoletoDsl {
         contaBancariaDsl=new ContaBancariaDsl(clos)
     }
     
+    def textoReciboSacado(item,valor) {
+        textosRs[item]=valor
+    }
+    def textoFichaCompensacao(item,valor) {
+        textosFc[item]=valor
+    }
+
     static def boleto(mainClos) {
         if(!mainClos) throw RuntimeException(message:"Definicao de boleto nao informado")
         else {
@@ -142,7 +158,7 @@ class BoletoDsl {
             mainClos.call()
             def titulo=b.createTitulo()
             def boleto=b.createBoleto(titulo)
-			def meuBoleto=new com.mrkonno.plugin.jrimum.Boleto(boleto)
+            def meuBoleto=new com.mrkonno.plugin.jrimum.Boleto(boleto)
             meuBoleto
         }
     }
