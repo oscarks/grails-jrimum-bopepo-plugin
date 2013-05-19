@@ -1,0 +1,28 @@
+<plugin name='jrimum-bopepo' version='0.3' grailsVersion='1.3.7 &gt; *'>
+  <author>Oscar Konno Sampaio</author>
+  <authorEmail>oscarks@gmail.com</authorEmail>
+  <title>JRimum Bopepo Plugin</title>
+  <description>\
+This plugin allow to create Boletos Bancarios for Banks of Brazil using the Jrimum Bopepo library
+It define a DSL to declare the Boleto's data structure and same methods to easy render in web interface
+</description>
+  <documentation>http://grails.org/plugin/jrimum-bopepo</documentation>
+  <type>JrimumBopepoGrailsPlugin</type>
+  <resources>
+    <resource>com.mrkonno.plugin.jrimum.example.BoletoController</resource>
+    <resource>com.mrkonno.plugin.jrimum.BopepoService</resource>
+  </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://grails.org/plugins' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+  </repositories>
+  <dependencies>
+    <runtime>
+      <dependency group='com.lowagie' name='itext' version='2.0.8' />
+    </runtime>
+  </dependencies>
+  <plugins />
+  <runtimePluginRequirements />
+  <behavior />
+</plugin>
