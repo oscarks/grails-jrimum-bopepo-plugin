@@ -1,3 +1,136 @@
+Summary
+This plugin allow to create Boletos Bancarios for Banks of Brazil using the Jrimum Bopepo library It define a DSL to declare the Boleto's data structure and same methods to easy render in web interface
+Installation
+grails install-plugin jrimum-bopepo
+
+Description
 Plugin Jrimum-Bopepo
 
-This is a grails plugin to create Boletos 
+Jrimum Bopepo library
+
+Jrimum-Bopepo is a Java library to generate Brazilian Bank Billet. It suports, at this moment, 18 banks. The Jrimum Bopepo plugin for grails permit to use a DSL to configure the billet generation.
+
+How to use:
+
+To generate a billet you need to inform:
+
+Originator Information (Cedente) - name, cpf/cnpj, address
+Payer Information (Sacado) - name, cpf/cnpj, address
+Billet information - nosso numero, documento, valor, tipo de titulo, etc.
+Bellow a example of use of DSL to generate a billet to Bradesco Bank
+=========================================================
+import com.mrkonno.plugin.jrimum.dsl.BoletoDsl
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
+import org.jrimum.domkee.financeiro.banco.hsbc.TipoIdentificadorCNR;
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeCobranca;
+def b=BoletoDsl.boleto {
+    sacado('Mario Roberto','117.053.316-70') {
+        endereco {
+            uf 'PA'
+            logradouro 'Av Santo Antonio'
+            localidade 'Belem'
+            cep '66039-203'
+            bairro 'Centro'
+            numero '302'
+        }        
+    }
+    cedente('ACME INC','18.410.773/0001-01') {
+        endereco {
+            uf 'PA'
+            logradouro 'Av Conselheiro Furtado'
+            localidade 'Belem'
+            cep '660060-063'
+            bairro 'Sao Braz'
+            numero '3192'
+        }   
+    }
+    contaBancaria {
+        banco 'BANCO_BRADESCO'
+        conta 1310,'2'
+        carteira 6
+        agencia 2703,'2'
+    }
+    dataVencimento new Date()+10
+    numeroDocumento '000210'
+    nossoNumero '42103929329'
+    digitoNossoNumero '3'
+    valor 100.00
+    tipoTitulo TipoDeTitulo.DM_DUPLICATA_MERCANTIL
+    localPagamento "Pagavel em qualquer Banco"
+    instrucoes """Aceitar ate a data de vencimento
+Apos o vencimento aceito apenas nas agencias do Bradesco
+Cobrar multa de 7% e juros de mora de 0,03% ao dia"""
+}
+// the bytes property return a array of bytes and it can be used to send in response
+byte[] bt=b.bytes
+// the pdf method can be used to save to a pdf file
+b.pdf('/home/oscar/Temp/teste.pdf')
+
+=========================================================
+
+Same bank needs extra information, specific data, this is informed in the parametrosBancarios map. A example of this is the HSBC Bank:
+
+=========================================================
+import com.mrkonno.plugin.jrimum.dsl.BoletoDsl
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeTitulo;
+import org.jrimum.domkee.financeiro.banco.hsbc.TipoIdentificadorCNR;
+import org.jrimum.domkee.financeiro.banco.febraban.TipoDeCobranca;
+def b=BoletoDsl.boleto {
+    sacado('Mario Roberto','117.053.316-70') {
+        endereco {
+            uf 'PA'
+            logradouro 'Av Santo Antonio'
+            localidade 'Belem'
+            cep '66039-203'
+            bairro 'Centro'
+            numero '302'
+        }        
+    }
+    cedente('ACME INC','18.410.773/0001-01') {
+        endereco {
+            uf 'PA'
+            logradouro 'Av Conselheiro Furtado'
+            localidade 'Belem'
+            cep '660060-063'
+            bairro 'Sao Braz'
+            numero '3192'
+        }   
+    }
+    contaBancaria {
+        banco 'HSBC'
+        conta 1310,'2'
+        carteira 6,TipoDeCobranca.SEM_REGISTRO
+        agencia 2703,'2'
+    }
+    dataVencimento new Date()+10
+    numeroDocumento '000210'
+    nossoNumero '42103929329'
+    digitoNossoNumero '3'
+    valor 100.00
+    tipoTitulo TipoDeTitulo.DM_DUPLICATA_MERCANTIL
+    parametrosBancarios(["${TipoIdentificadorCNR.class.getName()}":TipoIdentificadorCNR.COM_VENCIMENTO])
+    localPagamento "Pagavel em qualquer Banco"
+    instrucoes """Aceitar ate a data de vencimento
+Apos o vencimento aceito apenas nas agencias do HSBC
+Cobrar multa de 7% e juros de mora de 0,03% ao dia"""
+}
+// the bytes property return a array of bytes and it can be used to send in response
+byte[] bt=b.bytes
+// the pdf method can be used to save to a pdf file
+b.pdf('/home/oscar/Temp/teste.pdf')
+
+=========================================================
+
+ To install in projects with grails version bellow 2.0 is necessary to add the new grails repository in BuildConfig.groovy
+grails.project.dependency.resolution = {
+    repositories {
+        grailsPlugins()
+        grailsHome()
+        grailsCentral()
+	grailsRepo "http://grails.org/plugins"  // <==  Add this line
+        // uncomment the below to enable remote dependency resolution
+        // from public Maven repositories
+        mavenLocal()
+        mavenCentral()
+    }
+The Jrimum site: http://www.jrimum.org/
