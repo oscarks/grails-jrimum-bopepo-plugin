@@ -64,7 +64,7 @@ class BoletoDsl {
         parametrosBancarios
     }
     
-    def createBoleto(Titulo t) {
+    def createBoleto(Titulo t,contraApresentacao=false) {
         def boleto=new Boleto(t)
         if (localPagamento) boleto.localPagamento=localPagamento
         if (instrucaoAoSacado) boleto.instrucaoAoSacado=instrucaoAoSacado
@@ -76,6 +76,10 @@ class BoletoDsl {
                 }
             }
         }
+		if (contraApresentacao) {
+			boleto.addTextosExtras("txtFcDataVencimento", "CONTRA APRESENTAÇÃO");
+			boleto.addTextosExtras("txtRsDataVencimento", "CONTRA APRESENTAÇÃO");
+		}
         textosFc.each { item, valor->
             boleto.addTextosExtras("txtFc${item}",valor)
         }
@@ -104,7 +108,11 @@ class BoletoDsl {
         if (numeroDocumento) titulo.numeroDoDocumento
         titulo.valor=valor
         titulo.dataDoDocumento=dataDocumento
-        titulo.dataDoVencimento=dataVencimento
+		if (dataVencimento)
+        	titulo.dataDoVencimento=dataVencimento
+		else {
+			titulo.dataDoVencimento=org.jrimum.bopepo.FatorDeVencimento.toDate(0)
+		}
         titulo.tipoDeDocumento=tipoTitulo
         titulo.aceite=aceite
         titulo.desconto=desconto
@@ -156,8 +164,9 @@ class BoletoDsl {
             def b=new BoletoDsl()
             mainClos.delegate=b
             mainClos.call()
+			def contraApresentacao = b.dataVencimento ? false : true
             def titulo=b.createTitulo()
-            def boleto=b.createBoleto(titulo)
+            def boleto=b.createBoleto(titulo,contraApresentacao)
             def meuBoleto=new com.mrkonno.plugin.jrimum.Boleto(boleto)
             meuBoleto
         }
