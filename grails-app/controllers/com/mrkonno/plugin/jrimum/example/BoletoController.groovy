@@ -39,11 +39,12 @@ class BoletoController {
 				carteira 6
 				agencia 2703,'2'
 			}
-			dataVencimento new Date()+10
+			//dataVencimento new Date()+10
 			numeroDocumento '000210'
 			nossoNumero '42103929329'
 			digitoNossoNumero '3'
 			valor 100.00
+			parametrosBancarios ([(TipoIdentificadorCNR.class.getName()):TipoIdentificadorCNR.SEM_VENCIMENTO])
 			tipoTitulo TipoDeTitulo.DM_DUPLICATA_MERCANTIL
 			localPagamento "Pagavel em qualquer Banco"
 			instrucoes """Aceitar ate a data de vencimento
