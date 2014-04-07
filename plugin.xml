@@ -1,4 +1,4 @@
-<plugin name='jrimum-bopepo' version='0.4' grailsVersion='1.3.7 &gt; *'>
+<plugin name='jrimum-bopepo' version='0.5' grailsVersion='1.3.7 &gt; *'>
   <author>Oscar Konno Sampaio</author>
   <authorEmail>oscarks@gmail.com</authorEmail>
   <title>JRimum Bopepo Plugin</title>

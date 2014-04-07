@@ -4,3 +4,4 @@
 /target-eclipse
 *.zip
 .classpath
+*.zip.sha1
